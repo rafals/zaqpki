@@ -144,6 +144,7 @@ img
   :vertical-align -7px
   :margin-right 3px
 
+
 .transfer
   +record
   :color #aaa
@@ -151,29 +152,38 @@ img
   :background-image url(/images/small/shopping_cart.png) 
   :background-position 3px 5px
   :background-repeat no-repeat
+  .date
+    :font-size 10px
   .name
     :color #000
   .cost
     :color #ff0000
   .sponger
     +shadow
+    :white-space nowrap
     :font-size 14px
     :color #000
     :padding 5px
     :padding-left 1px
     :background-color #F3EFE0
+    &.self
+      :background-color #b0dcff
   .sponsor
     +shadow
+    :white-space nowrap
     :font-size 14px
     :color #000
     :padding 5px
     :padding-left 1px
-    :background-color #b0dcff
+    :background-color #F3EFE0
+    &.self
+      :background-color #b0dcff
 
 .friend
   +record
   +column(6,true)
   .nick
+    :white-space nowrap
     a
       :color #000
       &:hover
@@ -201,7 +211,7 @@ img
   .email
     +column(4)
     :padding-left 30px
-    :background transparent url(/images/small/mail_send.png) 2px 5px no-repeat
+    :background transparent url(/images/small/waiting_user.png) 2px 5px no-repeat
   .controlls
     +column(1, true)
       

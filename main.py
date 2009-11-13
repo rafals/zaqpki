@@ -18,6 +18,9 @@ def is_email(email):
   """is_email('nie$email@gmail.com') #=> False"""
   return re.match('^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$', email)
 
+def parse_date(date):
+  return date.strftime("dnia %d.%m.%y o %H:%M")
+
 def to_genitive(word, is_male):
   """to_genitive('kraxi', True) #=> 'kraxiego'"""
   text = word.strip()
@@ -71,13 +74,13 @@ class User(db.Model):
   created_at = db.DateTimeProperty(auto_now=True)
   
   @property # @property zamienia user.nick_genitive() na user.nick_genitive
-  def nick_genitive(self): return to_genitive(self.nick, self.is_male).capitalize
+  def nick_genitive(self): return to_genitive(self.nick, self.is_male)
   @property
   def fullname(self): return self.firstname.capitalize() + " " + self.lastname.capitalize() if (self.firstname and self.lastname) else ""
   @property
   def fullname_genitive(self): return to_genitive(self.firstname, self.is_male).capitalize() + " " + to_genitive(self.lastname, True).capitalize() if (self.firstname and self.lastname) else ""
   @property
-  def name(self): return self.fullname if self.fullname else self.nick.capitalize()
+  def name(self): return self.fullname if self.fullname else self.nick
   @property
   def name_genitive(self): return self.fullname_genitive if (self.firstname and self.lastname) else self.nick_genitive()
 
@@ -131,18 +134,34 @@ class User(db.Model):
         # pobieramy każdego jego znajomego f2 i dla każdej takiej pary:
         if f.email in emails: # jeśli f1 i f2 są naszymi znajomymi: 
           friends[f.email].relative_saldo += f.saldo # uwzględniamy saldo f1 -> f2
-    # zaokrąglamy
-    for f in friends.values():
-      f.relative_saldo = round(f.relative_saldo)
-    
+    #sortowanie
     result = friends.values()
     result.sort(lambda f1, f2: int(f1.relative_saldo - f2.relative_saldo))
+    
+    # zaokrąglamy
+    for f in result:
+      f.relative_saldo = "%.2f" % round(f.relative_saldo, 2)
+    
     return result
     
-  @property
-  def last_transfers(self, count=10):
+  def last_transfers(self, page=1, count=10):
     """Zwraca kilka ostatnich zaqpków"""
-    return Transfer.gql("WHERE users = :1 ORDER BY created_at DESC", self.email).fetch(count)
+    offset = (page-1)*count
+    first1000 = Transfer.gql("WHERE users = :1 ORDER BY created_at DESC", self.email).fetch(1000)
+    if (offset + count) <= 1000:
+      return first1000[offset:offset+count]
+    else:
+      last_date = first1000[-1].created_at
+      def find(offset, count, last_date):
+        transfers = Transfer.gql("WHERE users = :1 AND created_at < :2 ORDER BY created_at DESC", self.email, last_date).fetch(1000)
+        if (offset + count) <= 1000:
+          return transfers[offset:offset+count]
+        elif (offset > 1000):
+          find(offset-1000, count, transfers[-1].created_at)
+        else:
+          find(0, count, transfers[1000-offset+count])
+          
+      return find(offset-1000, last_date)
   
   def add_friend(self, recipient_email, nick=""):
     """Wysyła zaproszenie, przyjmuje zaproszenie albo nie robi nic w zależności od okoliczności"""
@@ -157,7 +176,7 @@ class User(db.Model):
     recipient = User.gql("WHERE email = :1", recipient_email).get()
     if recipient and self.email in recipient.invitations: # przyjmujemy zaproszenie
       f1 = Friend(owner = self.email, email = recipient.email, nick = nick or recipient.nick, is_male = recipient.is_male)
-      f2 = Friend(owner = recipient.email, email = self.email, nick = self.nick, is_male = self.is_male)
+      f2 = Friend(owner = recipient.email, email = self.email, nick = self.email  , is_male = self.is_male)
       recipient.invitations.remove(self.email)
       for record in [f1, f2, recipient]: record.put()
     else: # wysyłamy zaproszenie
@@ -189,7 +208,18 @@ class User(db.Model):
         f2.delete()
         return True
       return False
-      
+  
+  def delete_transfer(self, t):
+    # modyfikujemy salda
+    single_cost = t.cost/len(t.spongers)
+    for sponsor_friend in filter(lambda f: f.email in t.spongers, Friend.gql("WHERE owner = :1", t.sponsor).fetch(1000)):
+      sponsor_friend.saldo += single_cost
+      sponsor_friend.put()
+    for sponger_friend in filter(lambda f: f.owner in t.spongers, Friend.gql("WHERE email = :1", t.sponsor).fetch(1000)):
+      sponger_friend.saldo -= single_cost
+      sponger_friend.put()
+    t.delete()
+  
   def add_transfer(self, name, cost, spongers, sponsor):
     """Dodawanie zaqpka. Obsługuje niezpreparowane dane prosto z przeglądarki."""
     if not name or not cost or not spongers or not sponsor: return False # błędne dane, np. puste stringi
@@ -212,16 +242,15 @@ class User(db.Model):
       spongers = map(nick_genitive_to_email, spongers) # zamieniamy nicki na emaile: ['jercik@gmail.com', 'kraxiego'] => ['jercik@gmail.com', 'm.krakowiak@gmail.com']
       sponsor = nick_genitive_to_email(sponsor) # j.w.
     except: return False # nie znaleziono znajomego o podanej nazwie
-    
     # sprawdzamy czy sponsor zna każdego spongera
-    sponsor_friends = Friend.gql("WHERE owner = :1", sponsor).fetch(1000)
+    sponsor_friends = Friend.gql("WHERE owner = :1", sponsor.lower).fetch(1000)
     sponsor_friends_emails = [s.email for s in sponsor_friends]
     for s in spongers:
       if not s in sponsor_friends_emails:
         return False # nie zna
     
     snitch = self.email
-    users = list(set(spongers + [sponsor] + [snitch])) # cache'ujemy wszystkich userów w jednym miejscu, żeby móc wyciągać zaqpki danego usera jednym zapytaniem bez względu na to jaka rolę w nich pełnił
+    users = list(set(spongers + [sponsor] + [snitch])) # cache'ujemy wszystkich userów w jednym miejscu, żeby móc wyciągać zaqpki danego usera jednym zapytaniem bez względu na to jaką rolę w nich pełnił
     Transfer(name = name, cost = cost, spongers = spongers, sponsor = sponsor, snitch = snitch, users = users).put()
     # aktualizacja sald (ilość userów * 2 + 2) zapytań
     # aktualizujemy wszystkie wektorki sald od sponsora do spongera i vice versa
@@ -248,7 +277,7 @@ class Friend(db.Model):
   relative_saldo = 0.0 # pole które należy zmodyfikować przed użyciem
   
   @property
-  def nick_genitive(self): return to_genitive(self.nick, self.is_male).capitalize()
+  def nick_genitive(self): return to_genitive(self.nick, self.is_male)
   @property
   def self(s): return s.owner == s.email
   @property
@@ -347,7 +376,8 @@ class Cycle(object):
 
 class MainHandler(Handler):
   """Dashboard"""
-  def get(self):
+  def get(self, page = 1, count = 10):
+    page = int(page)
     if not self.signed_up(): return
     invitation_sender = User.gql("WHERE invitations = :1", self.current_user.email).get()
     if invitation_sender:
@@ -362,16 +392,22 @@ class MainHandler(Handler):
         memory[email] = results[0].nick_genitive if len(results) else email
         return memory.get(email)
       # tworzymy strukturę: [{name: n, cost: c, spongers: [{avatar: a1, nick: n1}, {avatar: a2, nick: n2}, ...], sponsor: s}, ...]
+      def is_self(email): return email == self.current_user.email
+      last_transfers = self.current_user.last_transfers(page)
+      if not len(last_transfers) and page != 1: return self.redirect('/')
       transfers = [Hash({'name': t.name,
-                         'cost': t.cost,
+                         'cost': "%.2f" % round(t.cost, 2),
+                         'date': parse_date(t.created_at),
+                         'key': t.key,
                          'spongers': [Hash({'avatar': gravatar(s),
-                                            'nick': email_to_nick_genitive(s)
+                                            'nick': email_to_nick_genitive(s),
+                                            'self': is_self(s)
                                             }) for s in t.spongers],
                          'sponsor': Hash({'avatar': gravatar(t.sponsor),
-                                          'nick': email_to_nick_genitive(t.sponsor)})
-                          }) for t in self.current_user.last_transfers]
-        
-      self.view('index.html', {'current_user': self.current_user, 'transfers': transfers, 'even': Cycle(), 'even2': Cycle(), 'small': gravatar('jercik@gmail.com', 24), 'logout_url': self.logout_url()})
+                                          'nick': email_to_nick_genitive(t.sponsor),
+                                          'self': is_self(t.sponsor)}),
+                          }) for t in last_transfers]
+      self.view('index.html', {'newer_available': page != 1, 'older_available': len(last_transfers) >= count, 'newer_page': page-1, 'older_page': page+1, 'current_user': self.current_user, 'transfers': transfers, 'even': Cycle(), 'even2': Cycle(), 'small': gravatar('jercik@gmail.com', 24), 'logout_url': self.logout_url()})
 
 class AddFriendHandler(Handler):
   def post(self):
@@ -424,7 +460,7 @@ class EditFriendHandler(Handler):
     friend.nick = nick
     friend.put()
     
-    if email.capitalize() == self.current_user.email.capitalize():
+    if email.upper() == self.current_user.email.upper():
       # profil
       self.current_user.nick = nick
       self.current_user.firstname = self.request.get('firstname')
@@ -433,9 +469,20 @@ class EditFriendHandler(Handler):
       self.current_user.put()
       
     self.redirect('/')
+
+class DeleteTransferHandler(Handler):
+  def get(self, key):
+    if not self.signed_up(): return
+    if not key: return self.redirect('/')
+    t = Transfer.gql("WHERE __key__ = :1", db.Key(key)).get()
+    if not t: return self.redirect('/')
+    if not self.current_user.email in t.users: return self.redirect('/')
+    self.current_user.delete_transfer(t)
+    self.redirect('/')
     
     
 application = webapp.WSGIApplication([('/', MainHandler),
+                                      (r'/page/(.*)', MainHandler),
                                       ('/signup', SignupHandler),
                                       (r'/friends/show/(.*)', ShowFriendHandler),
                                       ('/friends/add', AddFriendHandler),
@@ -443,6 +490,7 @@ application = webapp.WSGIApplication([('/', MainHandler),
                                       ('/friends/delete', DeleteFriendHandler),
                                       ('/profile', ProfileHandler),
                                       ('/transfers/add', AddTransferHandler),
+                                      (r'/transfers/delete/(.*)', DeleteTransferHandler),
                                       ],
                                       debug=True)
 

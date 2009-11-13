@@ -38,6 +38,10 @@
 			<a href="/">Cofnij</a>
 			<input type="submit" value="OK"/>
 			</form>
+			<form action="/friends/delete" method="POST">
+				<input type="hidden" name="email" value="{{ user.email }}"></input>
+				<input type="submit" value="Wyjeb">
+			</form>
 		</div>
 	</div>
 </body>

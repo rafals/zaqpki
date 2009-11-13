@@ -86,17 +86,30 @@
 							<span class="name">{{ transfer.name }}</span>
 							dla
 							{% for sponger in transfer.spongers %}
-								<span class="sponger"><img src="{{ sponger.avatar }}"></img>{{ sponger.nick }}</span>
+								<span class="sponger {% if sponger.self %}self{% endif %}"><img src="{{ sponger.avatar }}"></img>{{ sponger.nick }}</span>
 							{% endfor %}
-							od <span class="sponsor">
-								<img src="{{ transfer.sponsor.avatar }}"></img>{{ transfer.sponsor.nick }}
+							od <span class="sponsor {% if transfer.sponsor.self %}self{% endif %}">
+								<img src="{{ transfer.sponsor.avatar }}"></img>{{ transfer.sponsor.nick }}</span>
+							<span class="date">
+								{{ transfer.date }}
+							</span>
+							<span class="controlls">
+								<a href="/transfers/delete/{{ transfer.key }}"><img src="/images/small/trash_can.png"></img></a>
 							</span>
 						</div>
 					{% endfor %}
 				</div>
 				<div class="main bottombar">
-					<a href="#"><img src="/images/small/back.png"></img>Nowsze</a>
-					<a href="#">Starsze<img src="/images/small/next.png"></img></a>
+					{% if newer_available %}
+						<a href="/page/{{ newer_page }}"><img src="/images/small/back.png"/>Nowsze</a>
+					{% else %}
+						<img src="/images/small/back.png"></img>Nowsze
+					{% endif %}
+					{% if older_available %}
+						<a href="/page/{{ older_page }}">Starsze<img src="/images/small/next.png"/></a>
+					{% else %}
+						Starsze<img src="/images/small/next.png"/>
+					{% endif %}
 				</div>
 			</div>
 			<div class="side">

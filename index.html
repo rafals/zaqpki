@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="/stylesheets/dashboard.css" type="text/css" media="screen" charset="utf-8" />
 		<script type="text/javascript" charset="utf-8">		
 			$(function(){
-				$('input[type=text]').tooltip({
+				$('input[type=text].hint').tooltip({
 		      position: ['top', 'left'], 
 		      offset: [1, 5],
 		      effect: 'toggle'
@@ -48,16 +48,16 @@
 					<div id="add_transfer">
 				    <form action="/transfers/add" method="post">
 							<span class="input">
-								<input id="cost" type="text" name="cost" value="" size=2 /><div class="tooltip">
+								<input class="hint" id="cost" type="text" name="cost" value="" size=2 /><div class="tooltip">
 									Cena
 								</div> zł za
-								<input id="name" type="text" name="name" value="" size=9 /><div class="tooltip">
+								<input class="hint" id="name" type="text" name="name" value="" size=9 /><div class="tooltip">
 									Nazwa
 								</div>
-								dla <input type="text" name="spongers" id="spongers" value="" size=30 /><div class="tooltip">
+								dla <input class="hint" type="text" name="spongers" id="spongers" value="" size=30 /><div class="tooltip">
 									Dla
 								</div>
-								od <input type="text" name="sponsor" id="sponsor" size=8 value="{{ current_user.nick_genitive }}" /><div class="tooltip">
+								od <input class="hint" type="text" name="sponsor" id="sponsor" size=8 value="{{ current_user.nick_genitive }}" /><div class="tooltip">
 									Od
 								</div>
 							</span>
@@ -69,7 +69,7 @@
 					<div id="add_friend">
 						<form method="POST" action="/friends/add">
 							<span class="input">
-				      	<input id="email" name="email" type="text" size="14"/><div class="tooltip">
+				      	<input class="hint" id="email" name="email" type="text" size="14"/><div class="tooltip">
 									Email
 								</div>
 				      </span>
@@ -146,6 +146,21 @@
 					<a href="{{ logout_url }}"><img src="/images/small/unlock.png"></img>Wyloguj</a>
 				</div>
 			</div>
+			{% if is_admin %}
+				<div class="adminbar">
+					<div class="left">
+					<form action="/admin/emails/add" method="post">
+						Dodaj testera <input type="text" name="email" />
+						<input type="submit" value="Dodaj" />
+					</form>
+					</div>
+					<div class="right">
+					{% for email in admin_emails %}
+						{{ email }}
+					{% endfor %}
+					</div>
+				</div>
+			{% endif %}
 		</div>
 	</body>
 </html>

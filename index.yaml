@@ -10,6 +10,12 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: PermittedEmail
+  properties:
+  - name: 1
+  - name: key
+    direction: desc
+
 - kind: Transfer
   properties:
   - name: users

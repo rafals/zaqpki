@@ -321,6 +321,9 @@ class Handler(webapp.RequestHandler):
       self.redirect_to_login()
       return False # po nieudanum authorize trzeba dać return
   
+  def is_admin(self):
+    return users.is_current_user_admin()
+  
   def signed_up(self):
     """Sprawdza czy użytkownik jest zarejestrowany w naszej bazie.
     Jeśli nie jest zalogowany na konto gmaila, ustawia redirect na url logowania.
@@ -414,7 +417,10 @@ class MainHandler(Handler):
                                           'nick': email_to_nick_genitive(t.sponsor),
                                           'self': is_self(t.sponsor)}),
                           }) for t in last_transfers]
-      self.view('index.html', {'newer_available': page != 1, 'older_available': len(last_transfers) >= count, 'newer_page': page-1, 'older_page': page+1, 'current_user': self.current_user, 'transfers': transfers, 'even': Cycle(), 'even2': Cycle(), 'small': gravatar('jercik@gmail.com', 24), 'logout_url': self.logout_url()})
+      admin_emails = []
+      if self.is_admin():
+        admin_emails = map(lambda e: e.email, PermittedEmail.gql("ORDER BY created_at DESC").fetch(3))
+      self.view('index.html', {'is_admin': self.is_admin(), 'admin_emails': admin_emails, 'newer_available': page != 1, 'older_available': len(last_transfers) >= count, 'newer_page': page-1, 'older_page': page+1, 'current_user': self.current_user, 'transfers': transfers, 'even': Cycle(), 'even2': Cycle(), 'small': gravatar('jercik@gmail.com', 24), 'logout_url': self.logout_url()})
 
 class AddFriendHandler(Handler):
   def post(self):
@@ -489,6 +495,7 @@ class DeleteTransferHandler(Handler):
 
 class PermittedEmail(db.Model):
   email = db.EmailProperty()
+  created_at = db.DateTimeProperty(auto_now=True)
 
 class SetupHandler(Handler):
   def get(self):
@@ -497,7 +504,19 @@ class SetupHandler(Handler):
     if not permitted_email:
       PermittedEmail(email = email).put()
     return self.redirect('/')
+
+class AddEmailHandler(Handler):
+  def post(self):
+    if not self.is_admin(): return self.redirect('/')
+    email = self.request.get('email')
+    if not email: return self.redirect('/')
+    if not is_email(email): return self.redirect('/')
+    permitted_email = PermittedEmail.gql("WHERE email = :1", email).get()
+    if not permitted_email:
+      PermittedEmail(email = email).put()
+    return self.redirect('/')
     
+
 application = webapp.WSGIApplication([('/', MainHandler),
                                       (r'/page/(.*)', MainHandler),
                                       ('/signup', SignupHandler),
@@ -508,7 +527,8 @@ application = webapp.WSGIApplication([('/', MainHandler),
                                       ('/profile', ProfileHandler),
                                       ('/transfers/add', AddTransferHandler),
                                       (r'/transfers/delete/(.*)', DeleteTransferHandler),
-                                      ('/setup', SetupHandler)
+                                      ('/setup', SetupHandler),
+                                      ('/admin/emails/add', AddEmailHandler)
                                       ],
                                       debug=True)
 

@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-		<title>Zaqpki Black Metal</title>
+		<title>Zaqpki</title>
 		
 		<script src="/javascripts/jquery.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/javascripts/jquery.autocomplete.js" type="text/javascript" charset="utf-8"></script>
@@ -90,14 +90,17 @@
 							{% endfor %}
 							od <span class="sponsor {% if transfer.sponsor.self %}self{% endif %}">
 								<img src="{{ transfer.sponsor.avatar }}"></img>{{ transfer.sponsor.nick }}</span>
-							<span class="date">
-								{{ transfer.date }}
-							</span>
-							<span class="controlls">
+								<span class="date">{{ transfer.date }}</span>
+								<span class="controlls">
 								<a href="/transfers/delete/{{ transfer.key }}"><img src="/images/small/trash_can.png"></img></a>
 							</span>
 						</div>
 					{% endfor %}
+					{% if not transfers %}
+						<div class="transfer empty">
+							Brak zaqpków
+						</div>
+					{% endif %}
 				</div>
 				<div class="main bottombar">
 					{% if newer_available %}

@@ -12,29 +12,6 @@ indexes:
 
 - kind: Transfer
   properties:
-  - name: sponsor
-  - name: created_at
-    direction: desc
-
-- kind: Transfer
-  properties:
-  - name: user
-  - name: created_at
-    direction: desc
-
-- kind: Transfer
-  properties:
-  - name: users
-  - name: __key__
-    direction: desc
-
-- kind: Transfer
-  properties:
-  - name: users
-  - name: created_at
-
-- kind: Transfer
-  properties:
   - name: users
   - name: created_at
     direction: desc

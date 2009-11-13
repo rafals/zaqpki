@@ -352,13 +352,19 @@ class SignupHandler(Handler):
   
   def get(self):
     if not self.authorized(): return
-    self.view(self.current_email)
+    permitted_email = PermittedEmail.gql("WHERE email = :1", self.current_email).get()
+    if not permitted_email:
+      Handler.view(self, 'not_permitted.html', {'logout_url': self.logout_url()})
+    else:
+      self.view(self.current_email)
     
   def post(self):
     if not self.authorized(): return
     email = self.current_email
     nick, firstname, lastname = self.request.get('nick'), self.request.get('firstname'), self.request.get('lastname')
     is_male =  self.request.get('sex') != 'female'
+    permitted_email = PermittedEmail.gql("WHERE email = :1", email).get()
+    if not permitted_email: return self.redirect_to_login()
     try:
       User(email = email, nick = nick, firstname = firstname, lastname = lastname, is_male = is_male).put()
       Friend(owner = email, email = email, nick = nick, is_male = is_male).put()
@@ -480,7 +486,17 @@ class DeleteTransferHandler(Handler):
     if not self.current_user.email in t.users: return self.redirect('/')
     self.current_user.delete_transfer(t)
     self.redirect('/')
-    
+
+class PermittedEmail(db.Model):
+  email = db.EmailProperty()
+
+class SetupHandler(Handler):
+  def get(self):
+    email = 'zaqpkipl@gmail.com'
+    permitted_email = PermittedEmail.gql("WHERE email = :1", email).get()
+    if not permitted_email:
+      PermittedEmail(email = email).put()
+    return self.redirect('/')
     
 application = webapp.WSGIApplication([('/', MainHandler),
                                       (r'/page/(.*)', MainHandler),
@@ -492,6 +508,7 @@ application = webapp.WSGIApplication([('/', MainHandler),
                                       ('/profile', ProfileHandler),
                                       ('/transfers/add', AddTransferHandler),
                                       (r'/transfers/delete/(.*)', DeleteTransferHandler),
+                                      ('/setup', SetupHandler)
                                       ],
                                       debug=True)
 

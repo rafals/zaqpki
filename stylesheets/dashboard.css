@@ -138,7 +138,7 @@ img { vertical-align: -7px; margin-right: 3px; }
 
 .transfer { line-height: 35px; font-size: 1.3em; margin: 0px; padding: 0px; background-color: #fff; color: #aaa; padding-left: 30px; background-image: url(/images/small/shopping_cart.png); background-position: 3px 5px; background-repeat: no-repeat; }
 .transfer.even { background-color: #dbebf8; }
-.transfer .date { font-size: 10px; }
+.transfer .date { font-size: 10px; line-height: 20px; }
 .transfer .name { color: #000; }
 .transfer .cost { color: #ff0000; }
 .transfer .sponger { border: 1px solid #fff; border-bottom: 1px solid #aaa; border-right: 1px solid #ccc; white-space: nowrap; font-size: 14px; color: #000; padding: 5px; padding-left: 1px; background-color: #F3EFE0; }
@@ -149,7 +149,7 @@ img { vertical-align: -7px; margin-right: 3px; }
 .friend { line-height: 35px; font-size: 1.3em; margin: 0px; padding: 0px; background-color: #fff; display: inline; float: left; margin-right: 0; width: 238.5px; }
 .friend.even { background-color: #dbebf8; }
 * html .friend { overflow-x: hidden; }
-.friend .nick { white-space: nowrap; display: inline; float: left; margin-right: 2px; width: 158.333px; }
+.friend .nick { white-space: nowrap; overflow: hidden; display: inline; float: left; margin-right: 2px; width: 158.333px; }
 .friend .nick a { color: #000; }
 .friend .nick a:hover { color: #666; }
 .friend .nick img { margin-left: 5px; margin-right: 5px; }

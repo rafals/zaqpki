@@ -355,7 +355,7 @@ class SignupHandler(Handler):
   
   def get(self):
     if not self.authorized(): return
-    permitted_email = PermittedEmail.gql("WHERE email = :1", self.current_email).get()
+    permitted_email = PermittedEmail.gql("WHERE email = :1", self.current_email.lower()).fetch(1000)
     if not permitted_email:
       Handler.view(self, 'not_permitted.html', {'logout_url': self.logout_url()})
     else:
@@ -366,7 +366,7 @@ class SignupHandler(Handler):
     email = self.current_email
     nick, firstname, lastname = self.request.get('nick'), self.request.get('firstname'), self.request.get('lastname')
     is_male =  self.request.get('sex') != 'female'
-    permitted_email = PermittedEmail.gql("WHERE email = :1", email).get()
+    permitted_email = PermittedEmail.gql("WHERE email = :1", email.lower()).get()
     if not permitted_email: return self.redirect_to_login()
     try:
       User(email = email, nick = nick, firstname = firstname, lastname = lastname, is_male = is_male).put()
@@ -511,9 +511,9 @@ class AddEmailHandler(Handler):
     email = self.request.get('email')
     if not email: return self.redirect('/')
     if not is_email(email): return self.redirect('/')
-    permitted_email = PermittedEmail.gql("WHERE email = :1", email).get()
+    permitted_email = PermittedEmail.gql("WHERE email = :1", email.lower()).get()
     if not permitted_email:
-      PermittedEmail(email = email).put()
+      PermittedEmail(email = email.lower()).put()
     return self.redirect('/')
     
 

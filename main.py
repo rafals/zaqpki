@@ -8,6 +8,7 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.api import users
 import urllib, hashlib
+import logging
 
 # Wedle konwencji pythonowej stringi w 3 cudzysłowach jako pierwsze w klasie/funkcji służą jako dokumentacja
 def gravatar(email, size=24):
@@ -243,12 +244,12 @@ class User(db.Model):
       sponsor = nick_genitive_to_email(sponsor) # j.w.
     except: return False # nie znaleziono znajomego o podanej nazwie
     # sprawdzamy czy sponsor zna każdego spongera
-    sponsor_friends = Friend.gql("WHERE owner = :1", sponsor.lower).fetch(1000)
+    sponsor_friends = Friend.gql("WHERE owner = :1", sponsor).fetch(1000)
     sponsor_friends_emails = [s.email for s in sponsor_friends]
     for s in spongers:
       if not s in sponsor_friends_emails:
         return False # nie zna
-    
+        
     snitch = self.email
     users = list(set(spongers + [sponsor] + [snitch])) # cache'ujemy wszystkich userów w jednym miejscu, żeby móc wyciągać zaqpki danego usera jednym zapytaniem bez względu na to jaką rolę w nich pełnił
     Transfer(name = name, cost = cost, spongers = spongers, sponsor = sponsor, snitch = snitch, users = users).put()

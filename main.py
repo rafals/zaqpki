@@ -166,8 +166,8 @@ class User(db.Model):
   
   def add_friend(self, recipient_email, nick=""):
     """Wysyła zaproszenie, przyjmuje zaproszenie albo nie robi nic w zależności od okoliczności"""
-    if not is_email(recipient_email) or recipient_email == self.email or recipient_email in self.invitations:
-      return False # złe dane wejściowe
+    recipient_email = recipient_email.lower()
+    if not is_email(recipient_email) or recipient_email == self.email or recipient_email in self.invitations: return False # złe dane wejściowe
       
     f = Friend.gql("WHERE owner = :2 and email = :1", self.email, recipient_email).get()
     if f: return False # jesteście już znajomymi
@@ -188,9 +188,9 @@ class User(db.Model):
   
   def delete_friend(self, email):
     """Olewa zaproszenie, wywala znajomego albo nie robi nic w zależności od okoliczności"""
-    if not is_email(email) or email == self.email:
-      # złe dane wejściowe
-      return False
+    email = email.lower()
+    if not is_email(email): return False
+    if email == self.email: return False
     else:
       if email in self.invitations: # usuwamy wysłane przez nas zaproszenie
         self.invitations.remove(email)
@@ -232,7 +232,9 @@ class User(db.Model):
     # 'jerozy, ; ,     , kraxiego   , poskarta' #=> ['jerozy', 'kraxiego', 'poskarta']
     # usuwamy puste stringi
     # usuwamy duplikacje
-    spongers = list(set(filter(lambda s: s, map(lambda s: s.strip(), spongers.replace(';', ',').split(',')))))
+    spongers = list(set(filter(lambda s: s, map(lambda s: s.strip().lower(), spongers.replace(';', ',').split(',')))))
+    
+    sponsor = sponsor.strip().lower()
     
     friends = self.friends # wyciągamy z bazy znajomych, bo self.friends ich nie cache'uje
     def nick_genitive_to_email(sponger):
@@ -315,7 +317,7 @@ class Handler(webapp.RequestHandler):
     """Sprawdza czy użytkownik jest zalogowany na konto gmaila.
     Jeśli nie, ustawia redirect na url logowania."""
     if users.get_current_user():
-      self.current_email = users.get_current_user().email()
+      self.current_email = users.get_current_user().email().lower()
       return True
     else:
       self.redirect_to_login()
@@ -329,7 +331,7 @@ class Handler(webapp.RequestHandler):
     Jeśli nie jest zalogowany na konto gmaila, ustawia redirect na url logowania.
     Jeśli jest zalogowany ale nie nie ma konta, ustawia redirect na url rejestracji."""
     if self.authorized():
-      email = users.get_current_user().email()
+      email = users.get_current_user().email().lower()
       user = User.gql("WHERE email = :1", email).get()
       if user:
         self.current_user = user
@@ -389,7 +391,7 @@ class MainHandler(Handler):
   def get(self, page = 1, count = 10):
     page = int(page)
     if not self.signed_up(): return
-    invitation_sender = User.gql("WHERE invitations = :1", self.current_user.email).get()
+    invitation_sender = User.gql("WHERE invitations = :1", self.current_user.email.lower()).get()
     if invitation_sender:
       self.view('invitation.html', {'invitation_sender': invitation_sender})
       return
@@ -398,7 +400,7 @@ class MainHandler(Handler):
       def email_to_nick_genitive(email, memory = {}):
         """Zwraca nick w dopełniaczu dla podanego emaila. Zapamiętuje zwracane wyniki."""
         if memory.get(email): return memory[email]
-        results = filter(lambda f: f.email.upper() == email.upper(), friends)
+        results = filter(lambda f: f.email.lower() == email.lower(), friends)
         memory[email] = results[0].nick_genitive if len(results) else email
         return memory.get(email)
       # tworzymy strukturę: [{name: n, cost: c, spongers: [{avatar: a1, nick: n1}, {avatar: a2, nick: n2}, ...], sponsor: s}, ...]
@@ -419,7 +421,7 @@ class MainHandler(Handler):
                           }) for t in last_transfers]
       admin_emails = []
       if self.is_admin():
-        admin_emails = map(lambda e: e.email, PermittedEmail.gql("ORDER BY created_at DESC").fetch(2))
+        admin_emails = map(lambda e: e.email.lower(), PermittedEmail.gql("ORDER BY created_at DESC").fetch(2))
       self.view('index.html', {'is_admin': self.is_admin(), 'admin_emails': admin_emails, 'newer_available': page != 1, 'older_available': len(last_transfers) >= count, 'newer_page': page-1, 'older_page': page+1, 'current_user': self.current_user, 'transfers': transfers, 'even': Cycle(), 'even2': Cycle(), 'small': gravatar('jercik@gmail.com', 24), 'logout_url': self.logout_url()})
 
 class AddFriendHandler(Handler):

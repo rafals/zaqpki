@@ -1,0 +1,71 @@
+!blueprint_grid_columns = 8
+!blueprint_container_size = 520px
+!blueprint_grid_margin  = 10px
+!blueprint_grid_width   = (!blueprint_container_size + !blueprint_grid_margin) / !blueprint_grid_columns - !blueprint_grid_margin
+
+@import blueprint/reset.sass
+@import blueprint
+
++blueprint-typography("body")
+
+=rounded(!n = 3px)
+  :border-radius= !n
+  :-moz-border-radius= !n
+  :-webkit-border-radius= !n
+
+body
+  :background #494949 url(/images/background.jpg) center top repeat-x
+
+#container
+  +container
+  +rounded(5px)
+  :margin-top 100px
+  :background #fff
+  :font-size 1em
+  :padding-top 10px
+  :padding-bottom 10px
+
+.statement
+  :text-align center
+  :padding-bottom 20px
+  :font-size 1.8em
+  +column(8, true)
+
+.left_column
+  +column(3)
+  :padding-left 30px
+
+.right_column
+  +column(4, true)
+
+.title
+  :padding-top 10px
+
+.error
+  :color red
+
+.controlls
+  :padding-top 30px
+  :text-align center
+  +column(7, true)
+
+a
+  :text-decoration none
+
+button
+  :font-size 1.5em
+  :text-decoration none
+
+input
+  :font-size 1.5em
+
+input[type=text]
+  :border 1px solid #ddd
+  :color #000
+  :padding 5px
+
+input[disabled=disabled]
+  :color #aaa
+
+input[type=text]:focus
+  :border 1px solid #000

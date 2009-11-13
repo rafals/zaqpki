@@ -1,0 +1,168 @@
+html, body { margin: 0; padding: 0; border: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }
+
+div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, pre, a, abbr, acronym, address, code, del, dfn, em, img, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, caption, tbody, tfoot, thead, tr { margin: 0; padding: 0; border: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }
+
+blockquote, q { margin: 0; padding: 0; border: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; quotes: "" ""; }
+blockquote:before, q:before, blockquote:after, q:after { content: ""; }
+
+th, td, caption { margin: 0; padding: 0; border: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; text-align: left; font-weight: normal; vertical-align: middle; }
+
+table { margin: 0; padding: 0; border: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; border-collapse: separate; border-spacing: 0; vertical-align: middle; }
+
+a img { border: none; }
+
+body { line-height: 1.5; font-family: Helvetica Neue, Arial, Helvetica, sans-serif; color: #333333; font-size: 75%; }
+
+h1 { font-weight: normal; color: #222222; font-size: 3em; line-height: 1; margin-bottom: 0.5em; }
+h1 img { margin: 0; }
+
+h2 { font-weight: normal; color: #222222; font-size: 2em; margin-bottom: 0.75em; }
+
+h3 { font-weight: normal; color: #222222; font-size: 1.5em; line-height: 1; margin-bottom: 1em; }
+
+h4 { font-weight: normal; color: #222222; font-size: 1.2em; line-height: 1.25; margin-bottom: 1.25em; }
+
+h5 { font-weight: normal; color: #222222; font-size: 1em; font-weight: bold; margin-bottom: 1.5em; }
+
+h6 { font-weight: normal; color: #222222; font-size: 1em; font-weight: bold; }
+
+h2 img, h3 img, h4 img, h5 img, h6 img { margin: 0; }
+
+p { margin: 0 0 1.5em; }
+p img.left { display: inline; float: left; margin: 1.5em 1.5em 1.5em 0; padding: 0; }
+p img.right { display: inline; float: right; margin: 1.5em 0 1.5em 1.5em; padding: 0; }
+
+a { text-decoration: underline; color: #000099; }
+a:visited { color: #000066; }
+a:focus { color: black; }
+a:hover { color: black; }
+a:active { color: #cc0099; }
+
+blockquote { margin: 1.5em; color: #666; font-style: italic; }
+
+strong { font-weight: bold; }
+
+em { font-style: italic; }
+
+dfn { font-style: italic; font-weight: bold; }
+
+sup, sub { line-height: 0; }
+
+abbr, acronym { border-bottom: 1px dotted #666; }
+
+address { margin: 0 0 1.5em; font-style: italic; }
+
+del { color: #666; }
+
+pre { margin: 1.5em 0; white-space: pre; }
+
+pre, code, tt { font: 1em 'andale mono', 'lucida console', monospace; line-height: 1.5; }
+
+li ul, li ol { margin: 0 1.5em; }
+
+ul { margin: 0 1.5em 1.5em 1.5em; list-style-type: disc; }
+
+ol { margin: 0 1.5em 1.5em 1.5em; list-style-type: decimal; }
+
+dl { margin: 0 0 1.5em 0; }
+dl dt { font-weight: bold; }
+
+dd { margin-left: 1.5em; }
+
+table { margin-bottom: 1.4em; width: 100%; }
+
+th { font-weight: bold; }
+
+thead th { background: #c3d9ff; }
+
+th, td, caption { padding: 4px 10px 4px 5px; }
+
+tr.even td { background: #e5ecf9; }
+
+tfoot { font-style: italic; }
+
+caption { background: #eee; }
+
+.quiet { color: #666666; }
+
+.loud { color: #111111; }
+
+body { background: #494949 url(/images/background.jpg) center top repeat-x; }
+
+a { text-decoration: none; }
+
+input { font-size: 1.2em; }
+
+input[type=text] { background-color: #fff; border: 1px solid #bbb; color: #000; padding: 5px; }
+input[type=text]:hover { border: 1px solid #000; }
+input[type=text]:focus { border: 1px solid #000; border-bottom: 1px solid transparent; }
+
+input[type=submit] { border: 0; padding: 2px; font-size: 12px; color: #fff; background: #000 url(/images/bar.png) center -5px repeat-x; border-right: 1px solid #000; border-bottom: 1px solid #000; }
+input[type=submit]:hover { background: #000 url(/images/bar.png) center top repeat-x; }
+input[type=submit]:active { background: #000; }
+
+#container { width: 960px; margin: 0 auto; overflow: hidden; display: inline-block; font-size: 1em; }
+#container { display: block; }
+
+#header { display: inline; float: left; margin-right: 0; width: 960px; height: 100px; background: #000 url(/images/logo.jpg); text-align: right; vertical-align: bottom; }
+* html #header { overflow-x: hidden; }
+
+.bottombar { display: inline; float: left; margin-right: 0; width: 238.5px; line-height: 35px; text-align: center; font-size: 13px; background: #f5f5f5 url(/images/shadow.gif) top center no-repeat; }
+* html .bottombar { overflow-x: hidden; }
+.bottombar img { margin-left: 3px; margin-right: 3px; }
+.bottombar a { padding: 5px; color: #000; text-decoration: none; }
+.bottombar a:hover { color: #333; }
+
+.main { display: inline; float: left; margin-right: 2px; width: 719.5px; }
+* html .main { overflow-x: hidden; }
+
+.side { display: inline; float: left; margin-right: 0; width: 238.5px; }
+* html .side { overflow-x: hidden; }
+
+#topbar { display: inline; float: left; margin-right: 0; width: 960px; }
+* html #topbar { overflow-x: hidden; }
+#topbar #add_transfer { border-topleft-radius: 5px; -moz-border-radius-topleft: 5px; -webkit-border-top-left-radius: 5px; display: inline; float: left; margin-right: 2px; width: 719.5px; padding-bottom: 7px; padding-top: 7px; color: #fff; background: transparent url(/images/bar.png) center -3px repeat-x; text-align: center; }
+* html #topbar #add_transfer { overflow-x: hidden; }
+#topbar #add_transfer #cost { padding-left: 30px; background-position: 3px 3px; background-repeat: no-repeat; background-image: url(/images/small/add_to_shopping_cart.png); }
+#topbar #add_friend { border-topright-radius: 5px; -moz-border-radius-topright: 5px; -webkit-border-top-right-radius: 5px; display: inline; float: left; margin-right: 0; width: 238.5px; padding-bottom: 7px; padding-top: 7px; color: #fff; background: transparent url(/images/bar.png) center -3px repeat-x; text-align: center; }
+* html #topbar #add_friend { overflow-x: hidden; }
+#topbar #add_friend #email { padding-left: 30px; background-position: 3px 3px; background-repeat: no-repeat; background-image: url(/images/small/add_user.png); }
+
+#transfers { display: inline; float: left; margin-right: 2px; width: 719.5px; min-height: 1px; }
+* html #transfers { overflow-x: hidden; }
+
+#friends { display: inline; float: left; margin-right: 0; width: 238.5px; min-height: 1px; }
+* html #friends { overflow-x: hidden; }
+
+img { vertical-align: -7px; margin-right: 3px; }
+
+.transfer { line-height: 35px; font-size: 1.3em; margin: 0px; padding: 0px; background-color: #fff; color: #aaa; padding-left: 30px; background-image: url(/images/small/shopping_cart.png); background-position: 3px 5px; background-repeat: no-repeat; }
+.transfer.even { background-color: #dbebf8; }
+.transfer .name { color: #000; }
+.transfer .cost { color: #ff0000; }
+.transfer .sponger { border: 1px solid #fff; border-bottom: 1px solid #aaa; border-right: 1px solid #ccc; font-size: 14px; color: #000; padding: 5px; padding-left: 1px; background-color: #F3EFE0; }
+.transfer .sponsor { border: 1px solid #fff; border-bottom: 1px solid #aaa; border-right: 1px solid #ccc; font-size: 14px; color: #000; padding: 5px; padding-left: 1px; background-color: #b0dcff; }
+
+.friend { line-height: 35px; font-size: 1.3em; margin: 0px; padding: 0px; background-color: #fff; display: inline; float: left; margin-right: 0; width: 238.5px; }
+.friend.even { background-color: #dbebf8; }
+* html .friend { overflow-x: hidden; }
+.friend .nick { display: inline; float: left; margin-right: 2px; width: 158.333px; }
+.friend .nick a { color: #000; }
+.friend .nick a:hover { color: #666; }
+.friend .nick img { margin-left: 5px; margin-right: 5px; }
+* html .friend .nick { overflow-x: hidden; }
+.friend .saldo { display: inline; float: left; margin-right: 0; width: 78.167px; text-align: center; color: #ff0000; }
+* html .friend .saldo { overflow-x: hidden; }
+.friend.self { background: #b0dcff; }
+.friend.self .nick a { color: #000; }
+.friend.self .saldo { color: #f00; }
+
+.invitation { display: inline; float: left; margin-right: 0; width: 238.5px; line-height: 35px; font-size: 1.3em; margin: 0px; padding: 0px; background-color: #fff; font-size: 12px; }
+* html .invitation { overflow-x: hidden; }
+.invitation.even { background-color: #dbebf8; }
+.invitation .email { display: inline; float: left; margin-right: 2px; width: 158.333px; padding-left: 30px; background: transparent url(/images/small/mail_send.png) 2px 5px no-repeat; }
+* html .invitation .email { overflow-x: hidden; }
+.invitation .controlls { display: inline; float: left; margin-right: 0; width: 38.083px; }
+* html .invitation .controlls { overflow-x: hidden; }
+
+div.tooltip { -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px; border-top: 1px solid #666; border-left: 1px solid #666; border-right: 1px solid #666; background: #000 url(/images/bar.png) center -10px repeat-x; padding: 5px; padding-left: 7px; margin-left: 45px; width: 37px; display: none; color: #fff; text-align: left; }

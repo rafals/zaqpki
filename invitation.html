@@ -1,0 +1,50 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Zaqpki - Zaproszenie od {{ invitation_sender.name_genitive }}</title>
+  <link href="/stylesheets/profile.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" charset="utf-8">
+		function focus() {
+			document.getElementById('nick').focus();
+		}
+	</script>
+</head>
+<body onload="focus()">
+	<div id="container">
+		<div class="statement">
+		{% if error %}
+			<div class="error">{{ error }}</div>
+		{% else %}
+			<strong>{{ invitation_sender.name }}</strong> chce dodać Cię do znajomych
+		{% endif %}
+		</div>
+		<div class="left_column">
+			<div class="title"><strong>Avatar</strong></div>
+			<div class="field">
+				<img src="{{ invitation_sender.photo }}"></img>
+			</div>
+		</div>
+		<div class="right_column">
+			<div class="title"><strong>Email</strong></div>
+			<div class="field">
+				<input type="text" disabled="disabled" value="{{ invitation_sender.email }}"></input>
+			</div>
+			<form action="/friends/add" method="POST">
+			<div class="title"><strong>Nick</strong></div>
+			<div class="field"><input type="text" id="nick" name="nick" value="{{ invitation_sender.nick }}"></input></div>
+			<div class="title">Imię</div>
+			<div class="field"><input type="text" disabled="disabled" name="firstname" value="{{ invitation_sender.firstname }}"></input></div>
+			<div class="title">Nazwisko</div>
+			<div class="field"><input type="text" disabled="disabled" name="lastname" value="{{ invitation_sender.lastname }}"></input></div>
+		</div>
+		<div class="controlls">
+				<input type="hidden" name="email" value="{{ invitation_sender.email }}"></input>
+				<input type="submit" value="Dodaj">
+			</form>
+			<form action="/friends/delete" method="POST">
+				<input type="hidden" name="email" value="{{ invitation_sender.email }}"></input>
+				<input type="submit" value="Olej">
+			</form>
+		</div>
+	</div>
+</body>

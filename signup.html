@@ -1,0 +1,60 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Zaqpki - Przedstaw się</title>
+  <link href="/stylesheets/profile.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" charset="utf-8">
+		function focus() {
+			document.getElementById('nick').focus()
+		}
+	</script>
+</head>
+<body onload="focus()">
+	<div id="container">
+		<form action="/signup" method="POST">
+		<div class="statement">
+		{% if error %}
+			<div class="error">{{ error }}</div>
+		{% else %}
+			Tak będzie wyglądał <strong>Twój profil</strong> w Zaqpkach
+		{% endif %}
+		</div>
+		<div class="left_column">
+			<div class="title"><strong>Avatar</strong></div>
+			<div class="field">
+				<a href="http://pl.gravatar.com/" target="_blank"><img src="{{ gravatar }}"></img></a>
+			</div>
+		</div>
+		<div class="right_column">
+			<div class="title"><strong>Email</strong></div>
+			<div class="field">
+				<input type="text" disabled="disabled" value="{{ email }}"></input>
+			</div>
+			<div class="title"><strong>Nick</strong></div>
+			<!--<% @errors[:nick] and @errors[:nick].each do |e| %>
+				<div class="error"><%= e %></div>
+			<% end %>-->
+			<div class="field"><input type="text" id="nick" name="nick" value="{{ nick }}"></input></div>
+			<div class="title">Imię</div>
+			<!--<% @errors[:firstname] and @errors[:firstname].each do |e| %>
+				<div class="error"><%= e %></div>
+			<% end %>-->
+			<div class="field"><input type="text" name="firstname" value="{{ firstname }}"></input></div>
+			<div class="title">Nazwisko</div>
+			<!--<% @errors[:lastname] and @errors[:lastname].each do |e| %>
+				<div class="error"><%= e %></div>
+			<% end %>-->
+			<div class="field"><input type="text" name="lastname" value="{{ lastname }}"></input></div>
+			<div class="title"><strong>Płeć</strong></div>
+			<div class="field">
+				<input id="female" type=radio name="sex" value="female" {% if not is_male %}checked="true"{% endif %}><label for="female">kobieta</label>
+				<input id="male" type=radio name="sex" value="male" {% if is_male %}checked="true"{% endif %}><label for="male">facet</label>
+			</div>
+		</div>
+		<div class="controlls">
+			<a href="{{ logout_url }}">Cofnij</a>
+			<input type="submit" value="Dalej"/>
+			</form>
+		</div>
+	</div>
+</body>

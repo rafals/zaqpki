@@ -510,10 +510,11 @@ class AddEmailHandler(Handler):
     if not self.is_admin(): return self.redirect('/')
     email = self.request.get('email')
     if not email: return self.redirect('/')
+    email = email.strip().lower()
     if not is_email(email): return self.redirect('/')
-    permitted_email = PermittedEmail.gql("WHERE email = :1", email.lower()).get()
+    permitted_email = PermittedEmail.gql("WHERE email = :1", email).get()
     if not permitted_email:
-      PermittedEmail(email = email.lower()).put()
+      PermittedEmail(email = email).put()
     return self.redirect('/')
     
 

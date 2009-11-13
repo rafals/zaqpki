@@ -69,7 +69,7 @@
 					<div id="add_friend">
 						<form method="POST" action="/friends/add">
 							<span class="input">
-				      	<input class="hint" id="email" name="email" type="text" size="14"/><div class="tooltip">
+				      	<input class="hint add_email" id="email" name="email" type="text" size="14"/><div class="tooltip">
 									Email
 								</div>
 				      </span>
@@ -110,6 +110,22 @@
 						<a href="/page/{{ older_page }}">Starsze<img src="/images/small/next.png"/></a>
 					{% endif %}
 				</div>
+				{% if is_admin %}
+					<div class="adminbar">
+						<div class="left">
+						<form action="/admin/emails/add" method="post">
+							Nowy tester <input class="add_email" size=14 type="text" name="email" />
+							<input type="submit" value="Dodaj" />
+						</form>
+						</div>
+						<div class="right">
+							Najnowsi:
+						{% for email in admin_emails %}
+							{{ email }}
+						{% endfor %}
+						</div>
+					</div>
+				{% endif %}
 			</div>
 			<div class="side">
 			  <div id="friends">
@@ -142,21 +158,6 @@
 					<a href="{{ logout_url }}"><img src="/images/small/unlock.png"></img>Wyloguj</a>
 				</div>
 			</div>
-			{% if is_admin %}
-				<div class="adminbar">
-					<div class="left">
-					<form action="/admin/emails/add" method="post">
-						Dodaj testera <input type="text" name="email" />
-						<input type="submit" value="Dodaj" />
-					</form>
-					</div>
-					<div class="right">
-					{% for email in admin_emails %}
-						{{ email }}
-					{% endfor %}
-					</div>
-				</div>
-			{% endif %}
 		</div>
 	</body>
 </html>

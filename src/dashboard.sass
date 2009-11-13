@@ -118,11 +118,12 @@ input[type=submit]
     +rounded_top_right(5px)
     +column(6,true)
     +bar
-    #email
-      :padding-left 30px
-      :background-position 3px 3px
-      :background-repeat no-repeat
-      :background-image url(/images/small/add_user.png)
+    
+input[type=text].add_email
+  :background-position 3px 3px
+  :background-repeat no-repeat
+  :background-image url(/images/small/add_user.png)
+  :padding-left 30px
 
 #transfers
   +column(18)
@@ -219,17 +220,17 @@ img
     +column(1, true)
 
 .adminbar
-  +column(24, true)
+  +column(18, true)
   :margin-top 2px
-  :line-height 35px
-  :text-align left
+  :line-height 43px
   :font-size 13px
-  :background #f5f5f5 url(/images/shadow.gif) top center no-repeat
+  :background #f5f5f5 url(/images/bar.png) center top repeat-x
   :text-align center
+  :color #fff
   .left
-    +column(10, false)
+    +column(9, false)
   .right
-    +column(14, true)
+    +column(9, true)
 
 div.tooltip
   :-moz-border-radius-topleft 5px

@@ -141,7 +141,7 @@ class User(db.Model):
     
     # zaokrąglamy
     for f in result:
-      f.relative_saldo = "%.2f" % round((f.relative_saldo < 0 and f.relative_saldo > -0.01) or 0 and f.relative_saldo, 2)
+      f.relative_saldo = "%.2f" % round(0 if (f.relative_saldo < 0 and f.relative_saldo > -0.01) else f.relative_saldo, 2)
     
     return result
     

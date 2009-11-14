@@ -419,10 +419,10 @@ class MainHandler(Handler):
                                           'nick': email_to_nick_genitive(t.sponsor),
                                           'self': is_self(t.sponsor)}),
                           }) for t in last_transfers]
-      admin_emails = []
+      last_tester = None
       if self.is_admin():
-        admin_emails = map(lambda e: e.email.lower(), PermittedEmail.gql("ORDER BY created_at DESC").fetch(2))
-      self.view('index.html', {'is_admin': self.is_admin(), 'admin_emails': admin_emails, 'newer_available': page != 1, 'older_available': len(last_transfers) >= count, 'newer_page': page-1, 'older_page': page+1, 'current_user': self.current_user, 'transfers': transfers, 'even': Cycle(), 'even2': Cycle(), 'small': gravatar('jercik@gmail.com', 24), 'logout_url': self.logout_url()})
+        last_tester = PermittedEmail.gql("ORDER BY created_at DESC").get()
+      self.view('index.html', {'is_admin': self.is_admin(), 'last_tester': last_tester, 'newer_available': page != 1, 'older_available': len(last_transfers) >= count, 'newer_page': page-1, 'older_page': page+1, 'current_user': self.current_user, 'transfers': transfers, 'even': Cycle(), 'even2': Cycle(), 'small': gravatar('jercik@gmail.com', 24), 'logout_url': self.logout_url()})
 
 class AddFriendHandler(Handler):
   def post(self):

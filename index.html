@@ -121,10 +121,10 @@
 						</form>
 						</div>
 						<div class="right">
-							Najnowsi:
-						{% for email in admin_emails %}
-							{{ email }}
-						{% endfor %}
+							Ostatni:
+						{% if last_tester %}
+							{{ last_tester.email }}
+						{% endif %}
 						</div>
 					</div>
 				{% endif %}

@@ -14,6 +14,9 @@
 </head>
 <body onload="focus()">
 	<div id="container">
+		<div class="top">
+			<a id="close" href="{{ logout_url }}"><img src="/images/small/delete.png"/></a>
+		</div>
 		<form action="/signup" method="POST">
 		<div class="statement">
 		{% if error %}
@@ -53,11 +56,12 @@
 				<input id="female" type=radio name="sex" value="female" {% if not is_male %}checked="true"{% endif %}><label for="female">kobieta</label>
 				<input id="male" type=radio name="sex" value="male" {% if is_male %}checked="true"{% endif %}><label for="male">facet</label>
 			</div>
-		</div>
-		<div class="controlls">
-			<a href="{{ logout_url }}">Cofnij</a>
-			<input type="submit" value="Dalej"/>
-			</form>
+			<div class="controlls">
+				<div class="controll">
+				<input type="submit" value="Dalej"/>
+				</form>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

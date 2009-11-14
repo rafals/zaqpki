@@ -92,6 +92,10 @@ body { background: #494949 url(/images/background.jpg) center top repeat-x; }
 #container { width: 520px; margin: 0 auto; overflow: hidden; display: inline-block; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; margin-top: 100px; background: #fff; font-size: 1em; padding-top: 10px; padding-bottom: 10px; }
 #container { display: block; }
 
+.top { display: inline; float: left; margin-right: 0; width: 520px; text-align: right; }
+* html .top { overflow-x: hidden; }
+.top a { padding-right: 10px; }
+
 .statement { text-align: center; padding-bottom: 20px; font-size: 1.8em; display: inline; float: left; margin-right: 0; width: 520px; }
 * html .statement { overflow-x: hidden; }
 
@@ -105,12 +109,13 @@ body { background: #494949 url(/images/background.jpg) center top repeat-x; }
 
 .error { color: red; }
 
-.controlls { padding-top: 30px; text-align: center; display: inline; float: left; margin-right: 0; width: 453.75px; }
+.controlls { display: inline; float: left; margin-right: 0; width: 255px; margin-top: 30px; text-align: left; }
 * html .controlls { overflow-x: hidden; }
 
-a { text-decoration: none; }
+.controll { display: inline; float: left; margin-right: 0; width: 122.5px; text-align: left; }
+* html .controll { overflow-x: hidden; }
 
-button { font-size: 1.5em; text-decoration: none; }
+a { text-decoration: none; }
 
 input { font-size: 1.5em; }
 

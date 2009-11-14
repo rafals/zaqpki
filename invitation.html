@@ -39,15 +39,20 @@
 			<div class="field"><input type="text" disabled="disabled" name="firstname" value="{{ invitation_sender.firstname }}"></input></div>
 			<div class="title">Nazwisko</div>
 			<div class="field"><input type="text" disabled="disabled" name="lastname" value="{{ invitation_sender.lastname }}"></input></div>
+			<div class="controlls">
+				<div class="controll">
+					<input type="hidden" name="email" value="{{ invitation_sender.email }}"></input>
+					<input type="submit" value="Dodaj">
+					</form>
+				</div>
+				<div class="controll">
+					<form action="/friends/delete" method="POST">
+						<input type="hidden" name="email" value="{{ invitation_sender.email }}"></input>
+						<input type="submit" value="Olej">
+					</form>
+				</div>
+			</div>
 		</div>
-		<div class="controlls">
-				<input type="hidden" name="email" value="{{ invitation_sender.email }}"></input>
-				<input type="submit" value="Dodaj">
-			</form>
-			<form action="/friends/delete" method="POST">
-				<input type="hidden" name="email" value="{{ invitation_sender.email }}"></input>
-				<input type="submit" value="Olej">
-			</form>
-		</div>
+		
 	</div>
 </body>

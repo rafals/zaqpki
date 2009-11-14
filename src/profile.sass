@@ -25,6 +25,14 @@ body
   :padding-top 10px
   :padding-bottom 10px
 
+.top
+  +column(8, true)
+  :text-align right
+  a
+    :padding-right 10px
+
+
+
 .statement
   :text-align center
   :padding-bottom 20px
@@ -45,15 +53,15 @@ body
   :color red
 
 .controlls
-  :padding-top 30px
-  :text-align center
-  +column(7, true)
+  +column(4, true)
+  :margin-top 30px
+  :text-align left
+  
+.controll
+  +column(2, true)
+  :text-align left
 
 a
-  :text-decoration none
-
-button
-  :font-size 1.5em
   :text-decoration none
 
 input

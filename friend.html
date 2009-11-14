@@ -15,6 +15,9 @@
 <body onload="focus()">
 	<div id="container">
 		<form action="/friends/edit" method="POST">
+		<div class="top">
+			<a id="close" href="/"><img src="/images/small/delete.png"/></a>
+		</div>
 		<div class="statement">
 			Profil <strong>{{ user.nick_genitive }}</strong>
 		</div>
@@ -36,15 +39,19 @@
 			<div class="field"><input type="text" disabled="disabled" name="firstname" value="{{ user.firstname }}"></input></div>
 			<div class="title">Nazwisko</div>
 			<div class="field"><input type="text" disabled="disabled" name="lastname" value="{{ user.lastname }}"></input></div>
+			<div class="controlls">
+				<div class="controll">
+					<input class="button" type="submit" value="OK"/>
+					</form>
+				</div>
+				<div class="controll">
+					<form action="/friends/delete" method="POST">
+						<input type="hidden" name="email" value="{{ user.email }}"></input>
+						<input class="button" type="submit" value="Wyjeb">
+					</form>
+				</div>
+			</div>
 		</div>
-		<div class="controlls">
-			<a href="/">Cofnij</a>
-			<input type="submit" value="OK"/>
-			</form>
-			<form action="/friends/delete" method="POST">
-				<input type="hidden" name="email" value="{{ user.email }}"></input>
-				<input type="submit" value="Wyjeb">
-			</form>
-		</div>
+		
 	</div>
 </body>

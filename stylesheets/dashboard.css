@@ -169,7 +169,7 @@ img { vertical-align: -7px; margin-right: 3px; }
 .invitation .controlls { display: inline; float: left; margin-right: 0; width: 38.083px; }
 * html .invitation .controlls { overflow-x: hidden; }
 
-.adminbar { display: inline; float: left; margin-right: 0; width: 719.5px; margin-top: 2px; line-height: 43px; font-size: 13px; background: #f5f5f5 url(/images/bar.png) center top repeat-x; text-align: center; color: #fff; }
+.adminbar { display: inline; float: left; margin-right: 0; width: 719.5px; margin-top: 2px; line-height: 43px; font-size: 13px; background: #f5f5f5 url(/images/bar.png) center -3px repeat-x; text-align: center; color: #fff; }
 * html .adminbar { overflow-x: hidden; }
 .adminbar .left { display: inline; float: left; margin-right: 2px; width: 358.75px; }
 * html .adminbar .left { overflow-x: hidden; }

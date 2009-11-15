@@ -118,8 +118,10 @@
 						<form action="/admin/emails/add" method="post">
 							Nowy tester <input class="add_email" size=14 type="text" name="email" />
 							<input type="submit" value="Dodaj" />
+							<a href="https://appengine.google.com/datastore/explorer?app_id=zaqpkipl&kind=PermittedEmail&limit=20&offset=0&query=SELECT%20*%20FROM%20PermittedEmail&viewby=kind"><img src="/images/small/search_database.png" /></a>
+							</div>
 						</form>
-						</div>
+						
 						<div class="right">
 							Ostatni:
 						{% if last_tester %}

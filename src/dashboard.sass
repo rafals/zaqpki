@@ -13,20 +13,30 @@
   :border-bottom 1px solid #aaa
   :border-right 1px solid #ccc
 
-=rounded(!n = 3px)
+=rounded(!n = 5px)
   :border-radius= !n
   :-moz-border-radius= !n
   :-webkit-border-radius= !n
 
-=rounded_top_left(!n = 3px)
+=rounded_top_left(!n = 5px)
   :border-topleft-radius= !n
   :-moz-border-radius-topleft= !n
   :-webkit-border-top-left-radius= !n
 
-=rounded_top_right(!n = 3px)
+=rounded_top_right(!n = 5px)
   :border-topright-radius= !n
   :-moz-border-radius-topright= !n
   :-webkit-border-top-right-radius= !n
+
+=rounded_bottom_left(!n = 5px)
+  :border-bottomleft-radius= !n
+  :-moz-border-radius-bottomleft= !n
+  :-webkit-border-bottom-left-radius= !n
+
+=rounded_bottom_right(!n = 5px)
+  :border-bottomright-radius= !n
+  :-moz-border-radius-bottomright= !n
+  :-webkit-border-bottom-right-radius= !n
 
 body
   :background #494949 url(/images/background.jpg) center top repeat-x
@@ -224,7 +234,7 @@ img
   :margin-top 2px
   :line-height 43px
   :font-size 13px
-  :background #f5f5f5 url(/images/bar.png) center top repeat-x
+  :background #f5f5f5 url(/images/bar.png) center -3px repeat-x
   :text-align center
   :color #fff
   .left

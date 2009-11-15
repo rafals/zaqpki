@@ -27,25 +27,27 @@ def to_genitive(word, is_male):
   text = word.strip()
   if is_email(text): return text
   if text.upper() == "JA": return "mnie"
-  r = re.match('^(.+)[iy]$', text)
+  r = re.match('^(.+)[iy]$', text, re.I)
   if r: return r.group(1) + 'iego' if is_male else text
-  r = re.match('^(.+)ciek$', text)
+  r = re.match('^(.+)ciek$', text, re.I)
   if r: return r.group(1) + u'ćka'
-  r = re.match('^(.+)siek$', text)
+  r = re.match('^(.+)siek$', text, re.I)
   if r: return r.group(1) + u'śka'
-  r = re.match('^(.+)ziek$', text)
+  r = re.match('^(.+)ziek$', text, re.I)
   if r: return r.group(1) + u'źka'
-  r = re.match('^(.+)ek$', text)
+  r = re.match('^(.+)ek$', text, re.I)
   if r: return r.group(1) + 'ka'
-  r = re.match('^(.+)[kl]a$', text)
+  r = re.match('^(.+)[kl]a$', text, re.I)
   if r: return r.group(1) + 'ki'
-  r = re.match('^(.+)a$', text)
+  r = re.match('^(.+)[aA]$', text, re.I)
   if r: return r.group(1) + 'y'
-  r = re.match('^(.+)e$', text)
+  r = re.match('^(.+)e$', text, re.I)
   if r: return text
-  r = re.match('^(.+)q$', text)
+  r = re.match('^(.+)ś$', text, re.I)
+  if r: return r.group(1) + 'sia' if is_male else text
+  r = re.match('^(.+)q$', text, re.I)
   if r: return r.group(1) + 'ka' if is_male else text
-  r = re.match('^(.+)u$', text)
+  r = re.match('^(.+)u$', text, re.I)
   if r: return r.group(1) + 'a'
   return text + "a"
 

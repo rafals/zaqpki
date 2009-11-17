@@ -18,6 +18,8 @@ $.fn.extend({
 		options = $.extend({}, $.Autocompleter.defaults, {
 			url: isUrl ? urlOrData : null,
 			data: isUrl ? null : urlOrData,
+			fulldata: isUrl ? null : urlOrData,
+			chosen: [],
 			delay: isUrl ? $.Autocompleter.defaults.delay : 10,
 			max: options && !options.scroll ? 10 : 150
 		}, options);
@@ -163,7 +165,7 @@ $.Autocompleter = function(input, options) {
 			hideResults();
 		}
 	}).click(function() {
-		// show select when clicking in a focused field
+		// show when clicking in a focused field
 		if ( hasFocus++ > 1 && !select.visible() ) {
 			onChange(0, true);
 		}
@@ -233,6 +235,7 @@ $.Autocompleter = function(input, options) {
 		$input.val(v);
 		hideResultsNow();
 		$input.trigger("result", [selected.data, selected.value]);
+		//TODO wyjebywarka
 		return true;
 	}
 	
@@ -319,6 +322,7 @@ $.Autocompleter = function(input, options) {
 						if (options.multiple) {
 							var words = trimWords($input.val()).slice(0, -1);
 							$input.val( words.join(options.multipleSeparator) + (words.length ? options.multipleSeparator : "") );
+							options.chosen = words
 						}
 						else {
 							$input.val( "" );
@@ -469,7 +473,6 @@ $.Autocompleter.Cache = function(options) {
 		
 		// track all options for minChars = 0
 		stMatchSets[""] = [];
-		
 		// loop through the array and create a lookup structure
 		for ( var i = 0, ol = options.data.length; i < ol; i++ ) {
 			var rawValue = options.data[i];
@@ -523,8 +526,10 @@ $.Autocompleter.Cache = function(options) {
 		add: add,
 		populate: populate,
 		load: function(q) {
+
 			if (!options.cacheLength || !length)
 				return null;
+
 			/* 
 			 * if dealing w/local data and matchContains than we must make sure
 			 * to loop through all the data collections looking for matches
@@ -534,12 +539,14 @@ $.Autocompleter.Cache = function(options) {
 				var csub = [];
 				// loop through all the data grids for matches
 				for( var k in data ){
+					
 					// don't search through the stMatchSets[""] (minChars: 0) cache
 					// this prevents duplicates
 					if( k.length > 0 ){
 						var c = data[k];
 						$.each(c, function(i, x) {
 							// if we've got a match, add it to the array
+
 							if (matchSubset(x.value, q)) {
 								csub.push(x);
 							}
@@ -630,6 +637,7 @@ $.Autocompleter.Select = function (options, input, select, config) {
 	function moveSelect(step) {
 		listItems.slice(active, active + 1).removeClass(CLASSES.ACTIVE);
 		movePosition(step);
+
         var activeItem = listItems.slice(active, active + 1).addClass(CLASSES.ACTIVE);
         if(options.scroll) {
             var offset = 0;
@@ -676,6 +684,7 @@ $.Autocompleter.Select = function (options, input, select, config) {
 			listItems.slice(0, 1).addClass(CLASSES.ACTIVE);
 			active = 0;
 		}
+		
 		// apply bgiframe if available
 		if ( $.fn.bgiframe )
 			list.bgiframe();

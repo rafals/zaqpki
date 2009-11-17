@@ -13,13 +13,21 @@
 		
 		<link rel="stylesheet" href="/stylesheets/jquery.autocomplete.css" type="text/css" media="screen" charset="utf-8" />
 		<link rel="stylesheet" href="/stylesheets/dashboard.css" type="text/css" media="screen" charset="utf-8" />
-		<script type="text/javascript" charset="utf-8">		
+		<script type="text/javascript" charset="utf-8">
+			function calculate_input_value(inp){
+				try{
+					inp.value = inp.value ? eval(inp.value) : ''
+				} catch(e) {
+					window.alert("Błąd w polu ceny! \n Niepoprawny format: " + inp.value)
+				}
+			}
+		
 			$(function(){
 				$('input[type=text].hint').tooltip({
-		      position: ['top', 'left'], 
-		      offset: [1, 5],
-		      effect: 'toggle'
-		    })
+					position: ['top', 'left'], 
+					offset: [1, 5],
+					effect: 'toggle'
+				})
 				var friends = [];
 				{% for friend in current_user.friends %}
 					friends.push("{{ friend.nick_genitive }}");
@@ -50,7 +58,7 @@
 					<div id="add_transfer">
 				    <form action="/transfers/add" method="post">
 							<span class="input">
-								<input class="hint" id="cost" type="text" name="cost" value="" size=2 /><div class="tooltip">
+								<input class="hint" id="cost" type="text" name="cost" value="" size=2 onblur="calculate_input_value(this)"/><div class="tooltip">
 									Cena
 								</div> zł za
 								<input class="hint" id="name" type="text" name="name" value="" size=9 /><div class="tooltip">

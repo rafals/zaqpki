@@ -16,7 +16,7 @@
 		<script type="text/javascript" charset="utf-8">
 			function calculate_input_value(inp){
 				try{
-					inp.value = inp.value ? eval(inp.value) : ''
+					inp.value = inp.value ? Math.round(eval(inp.value.replace(/,/g, '.'))*100)/100 : ''
 				} catch(e) {
 					window.alert("Błąd w polu ceny! \n Niepoprawny format: " + inp.value)
 				}

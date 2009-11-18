@@ -359,8 +359,8 @@ class SignupHandler(Handler):
   
   def get(self):
     if not self.authorized(): return
-    permitted_email = PermittedEmail.gql("WHERE email = :1", self.current_email.lower()).fetch(1000)
-    if not permitted_email:
+    invitations = User.gql("WHERE invitations = :1", self.current_email.lower()).fetch(1000)
+    if not invitations:
       Handler.view(self, 'not_permitted.html', {'logout_url': self.logout_url()})
     else:
       self.view(self.current_email)
@@ -497,31 +497,6 @@ class DeleteTransferHandler(Handler):
     self.current_user.delete_transfer(t)
     self.redirect('/')
 
-class PermittedEmail(db.Model):
-  email = db.EmailProperty()
-  created_at = db.DateTimeProperty(auto_now=True)
-
-class SetupHandler(Handler):
-  def get(self):
-    email = 'zaqpkipl@gmail.com'
-    permitted_email = PermittedEmail.gql("WHERE email = :1", email).get()
-    if not permitted_email:
-      PermittedEmail(email = email).put()
-    return self.redirect('/')
-
-class AddEmailHandler(Handler):
-  def post(self):
-    if not self.is_admin(): return self.redirect('/')
-    email = self.request.get('email')
-    if not email: return self.redirect('/')
-    email = email.strip().lower()
-    if not is_email(email): return self.redirect('/')
-    permitted_email = PermittedEmail.gql("WHERE email = :1", email).get()
-    if not permitted_email:
-      PermittedEmail(email = email).put()
-    return self.redirect('/')
-    
-
 application = webapp.WSGIApplication([('/', MainHandler),
                                       (r'/page/(.*)', MainHandler),
                                       ('/signup', SignupHandler),
@@ -531,9 +506,7 @@ application = webapp.WSGIApplication([('/', MainHandler),
                                       ('/friends/delete', DeleteFriendHandler),
                                       ('/profile', ProfileHandler),
                                       ('/transfers/add', AddTransferHandler),
-                                      (r'/transfers/delete/(.*)', DeleteTransferHandler),
-                                      ('/setup', SetupHandler),
-                                      ('/admin/emails/add', AddEmailHandler)
+                                      (r'/transfers/delete/(.*)', DeleteTransferHandler)
                                       ],
                                       debug=True)
 

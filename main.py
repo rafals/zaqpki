@@ -359,9 +359,9 @@ class SignupHandler(Handler):
   
   def get(self):
     if not self.authorized(): return
-    permitted_email = PermittedEmail.gql("WHERE email = :1", self.current_email.lower()).fetch(1000)
-    if not permitted_email:
-      Handler.view(self, 'not_permitted.html', {'logout_url': self.logout_url()})
+    if not (User.gql("WHERE invitations = :1", self.current_email.lower()).get() or PermittedEmail.gql("WHERE email = :1", self.current_email.lower()).get()):
+        logging.info(str(self.current_email) + " próbuje dostać się do Zaqpków.")
+        Handler.view(self, 'not_permitted.html', {'logout_url': self.logout_url()})
     else:
       self.view(self.current_email)
     
@@ -370,8 +370,8 @@ class SignupHandler(Handler):
     email = self.current_email
     nick, firstname, lastname = self.request.get('nick'), self.request.get('firstname'), self.request.get('lastname')
     is_male =  self.request.get('sex') != 'female'
-    permitted_email = PermittedEmail.gql("WHERE email = :1", email.lower()).get()
-    if not permitted_email: return self.redirect_to_login()
+    if not (User.gql("WHERE invitations = :1", self.current_email.lower()).get() or PermittedEmail.gql("WHERE email = :1", self.current_email.lower()).get()):
+      return self.redirect_to_login()
     try:
       User(email = email, nick = nick, firstname = firstname, lastname = lastname, is_male = is_male).put()
       Friend(owner = email, email = email, nick = nick, is_male = is_male).put()

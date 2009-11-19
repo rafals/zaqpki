@@ -8,6 +8,7 @@
 		<script src="/javascripts/jquery.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/javascripts/jquery.autocomplete.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/javascripts/jquery.tools.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/javascripts/jquery.scrollto.js" type="text/javascript" charset="utf-8"></script>
 		
 		<link rel="icon" href="/images/small/shopping_cart.png" type="image/png">
 		
@@ -47,6 +48,23 @@
 				$("#name").val("");
 				$("#cost").val("");
 				$("#cost").focus();
+				$('.slider_controller').click(function(event){
+					obj = $(event.target)
+					if(!obj.hasClass('blocked')){
+						obj.addClass('blocked')
+						obj.prev().stop().scrollTo('100%',500,{axis:'x'});
+					}
+					else {
+						obj.removeClass('blocked').removeClass('hover')
+						obj.prev().stop().scrollTo(0,500,{axis:'x'});
+					}
+				}).mouseover(function(event){
+					$(event.target).addClass('hover').prev().stop().scrollTo('100%',500,{axis:'x'});
+				}).mouseout(function(event){
+					obj = $(event.target)
+					if(!obj.hasClass('blocked'))
+						obj.removeClass('hover').prev().stop().scrollTo(0,500,{axis:'x'});
+				})
 			});
 		</script>
 	<body>
@@ -92,18 +110,23 @@
 				<div id="transfers">
 					{% for transfer in transfers %}
 						<div class="transfer {{ even }}">
-							<span class="cost">{{ transfer.cost }} zł</span> za
-							<span class="name">{{ transfer.name }}</span>
-							dla
-							{% for sponger in transfer.spongers %}
-								<span class="sponger {% if sponger.self %}self{% endif %}"><img src="{{ sponger.avatar }}"></img>{{ sponger.nick }}</span>
-							{% endfor %}
-							od <span class="sponsor {% if transfer.sponsor.self %}self{% endif %}">
-								<img src="{{ transfer.sponsor.avatar }}"></img>{{ transfer.sponsor.nick }}</span>
-								<span class="date">{{ transfer.date }}</span>
-								<span class="controlls">
-								<a href="/transfers/delete/{{ transfer.key }}"><img src="/images/small/trash_can.png"></img></a>
-							</span>
+							<div class="slider_box">
+								<div>
+									<span class="cost">{{ transfer.cost }} zł</span> za
+									<span class="name">{{ transfer.name }}</span>
+									dla
+									{% for sponger in transfer.spongers %}
+										<span class="sponger {% if sponger.self %}self{% endif %}"><img src="{{ sponger.avatar }}"></img>{{ sponger.nick }}</span>
+									{% endfor %}
+									od <span class="sponsor {% if transfer.sponsor.self %}self{% endif %}">
+										<img src="{{ transfer.sponsor.avatar }}"></img>{{ transfer.sponsor.nick }}</span>
+										<span class="date">{{ transfer.date }}</span>
+										<span class="controlls">
+										<a href="/transfers/delete/{{ transfer.key }}"><img src="/images/small/trash_can.png"></img></a>
+									</span>
+								</div>
+							</div>
+							<div class="slider_controller"></div>
 						</div>
 					{% endfor %}
 					{% if not transfers %}

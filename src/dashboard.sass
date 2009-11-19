@@ -159,38 +159,60 @@ img
 
 .transfer
   +record
+  +column(18)
   :color #aaa
-  :padding-left 30px
+  :padding-left 0px
   :background-image url(/images/small/shopping_cart.png) 
-  :background-position 3px 5px
+  :height 36px
+  :background-position 6px 3px
   :background-repeat no-repeat
-  .date
-    :font-size 10px
-    :line-height 20px
-  .name
-    :color #000
-  .cost
-    :color #ff0000
-  .sponger
-    +shadow
+  &.empty
+    :text-align center
+    :background-image none
+  .slider_controller
+    :float left
+    :width 30px
+    :height 36px
+    :background-position 7px 7px
+    :background-repeat no-repeat
+    :background-image url(/images/small/scroll-left.png)
+    &.hover
+      :background-image url(/images/small/scroll-hover.png)
+    &.blocked
+      :background-image url(/images/small/scroll-right.png)
+  .slider_box
+    +column(16)
+    :height 36px
+    :margin-left 30px
     :white-space nowrap
-    :font-size 14px
-    :color #000
-    :padding 5px
-    :padding-left 1px
-    :background-color #F3EFE0
-    &.self
-      :background-color #b0dcff
-  .sponsor
-    +shadow
-    :white-space nowrap
-    :font-size 14px
-    :color #000
-    :padding 5px
-    :padding-left 1px
-    :background-color #F3EFE0
-    &.self
-      :background-color #b0dcff
+    :overflow hidden
+    :position relative
+    .date
+      :font-size 10px
+      :line-height 20px
+    .name
+      :color #000
+    .cost
+      :color #ff0000
+    .sponger
+      +shadow
+      :font-size 14px
+      :color #000
+      :padding 5px
+      :padding-left 1px
+      :background-color #F3EFE0
+      &.self
+        :background-color #b0dcff
+    .sponsor
+      +shadow
+      :white-space nowrap
+      :font-size 14px
+      :color #000
+      :padding 5px
+      :padding-left 1px
+      :background-color #F3EFE0
+      &.self
+        :background-color #b0dcff
 
 .friend
   +record

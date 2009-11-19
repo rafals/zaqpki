@@ -137,15 +137,22 @@ input[type=text].add_email { background-position: 3px 3px; background-repeat: no
 
 img { vertical-align: -7px; margin-right: 3px; }
 
-.transfer { line-height: 35px; font-size: 1.3em; margin: 0px; padding: 0px; background-color: #fff; color: #aaa; padding-left: 30px; background-image: url(/images/small/shopping_cart.png); background-position: 3px 5px; background-repeat: no-repeat; }
+.transfer { line-height: 35px; font-size: 1.3em; margin: 0px; padding: 0px; background-color: #fff; display: inline; float: left; margin-right: 2px; width: 719.5px; color: #aaa; padding-left: 0px; background-image: url(/images/small/shopping_cart.png); height: 36px; background-position: 6px 3px; background-repeat: no-repeat; }
 .transfer.even { background-color: #dbebf8; }
-.transfer .date { font-size: 10px; line-height: 20px; }
-.transfer .name { color: #000; }
-.transfer .cost { color: #ff0000; }
-.transfer .sponger { border: 1px solid #fff; border-bottom: 1px solid #aaa; border-right: 1px solid #ccc; white-space: nowrap; font-size: 14px; color: #000; padding: 5px; padding-left: 1px; background-color: #F3EFE0; }
-.transfer .sponger.self { background-color: #b0dcff; }
-.transfer .sponsor { border: 1px solid #fff; border-bottom: 1px solid #aaa; border-right: 1px solid #ccc; white-space: nowrap; font-size: 14px; color: #000; padding: 5px; padding-left: 1px; background-color: #F3EFE0; }
-.transfer .sponsor.self { background-color: #b0dcff; }
+* html .transfer { overflow-x: hidden; }
+.transfer.empty { text-align: center; background-image: none; }
+.transfer .slider_controller { float: left; width: 30px; height: 36px; background-position: 7px 7px; background-repeat: no-repeat; background-image: url(/images/small/scroll-left.png); }
+.transfer .slider_controller.hover { background-image: url(/images/small/scroll-hover.png); }
+.transfer .slider_controller.blocked { background-image: url(/images/small/scroll-right.png); }
+.transfer .slider_box { display: inline; float: left; margin-right: 2px; width: 639.333px; height: 36px; margin-left: 30px; white-space: nowrap; overflow: hidden; position: relative; }
+* html .transfer .slider_box { overflow-x: hidden; }
+.transfer .slider_box .date { font-size: 10px; line-height: 20px; }
+.transfer .slider_box .name { color: #000; }
+.transfer .slider_box .cost { color: #ff0000; }
+.transfer .slider_box .sponger { border: 1px solid #fff; border-bottom: 1px solid #aaa; border-right: 1px solid #ccc; font-size: 14px; color: #000; padding: 5px; padding-left: 1px; background-color: #F3EFE0; }
+.transfer .slider_box .sponger.self { background-color: #b0dcff; }
+.transfer .slider_box .sponsor { border: 1px solid #fff; border-bottom: 1px solid #aaa; border-right: 1px solid #ccc; white-space: nowrap; font-size: 14px; color: #000; padding: 5px; padding-left: 1px; background-color: #F3EFE0; }
+.transfer .slider_box .sponsor.self { background-color: #b0dcff; }
 
 .friend { line-height: 35px; font-size: 1.3em; margin: 0px; padding: 0px; background-color: #fff; display: inline; float: left; margin-right: 0; width: 238.5px; }
 .friend.even { background-color: #dbebf8; }

@@ -137,11 +137,11 @@ input[type=text].add_email { background-position: 3px 3px; background-repeat: no
 
 img { vertical-align: -7px; margin-right: 3px; }
 
-.transfer { line-height: 35px; font-size: 1.3em; margin: 0px; padding: 0px; background-color: #fff; display: inline; float: left; margin-right: 2px; width: 719.5px; color: #aaa; padding-left: 0px; background-image: url(/images/small/shopping_cart.png); height: 36px; background-position: 6px 3px; background-repeat: no-repeat; }
+.transfer { line-height: 35px; font-size: 1.3em; margin: 0px; padding: 0px; background-color: #fff; display: inline; float: left; margin-right: 2px; width: 719.5px; color: #aaa; background-image: url(/images/small/shopping_cart.png); height: 36px; background-position: 6px 3px; background-repeat: no-repeat; }
 .transfer.even { background-color: #dbebf8; }
 * html .transfer { overflow-x: hidden; }
 .transfer.empty { text-align: center; background-image: none; }
-.transfer .slider_box { height: 36px; margin-left: 30px; padding-right: 25px; white-space: nowrap; overflow: hidden; position: relative; }
+.transfer .slider_box { height: 36px; margin-left: 30px; margin-right: 10px; padding-right: 25px; white-space: nowrap; overflow: hidden; position: relative; }
 .transfer .slider_box .slider_bar .separator { float: left; width: 100px; height: 20px; background-color: red; }
 .transfer .slider_box .slider_bar .date { font-size: 10px; line-height: 20px; }
 .transfer .slider_box .slider_bar .name { color: #000; }

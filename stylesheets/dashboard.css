@@ -141,12 +141,7 @@ img { vertical-align: -7px; margin-right: 3px; }
 .transfer.even { background-color: #dbebf8; }
 * html .transfer { overflow-x: hidden; }
 .transfer.empty { text-align: center; background-image: none; }
-.transfer .slider_controller { display: none; float: left; width: 30px; height: 36px; background-position: 7px 7px; background-repeat: no-repeat; background-image: url(/images/small/scroll-left.png); }
-.transfer .slider_controller.hover { background-image: url(/images/small/scroll-hover.png); }
-.transfer .slider_controller.blocked { background-image: url(/images/small/scroll-right.png); }
 .transfer .slider_box { height: 36px; margin-left: 30px; padding-right: 25px; white-space: nowrap; overflow: hidden; position: relative; }
-.transfer .slider_box .slider_bar { padding: 0 10px; width: 100px; height: 20px; }
-.transfer .slider_box .slider_bar div { float: left; }
 .transfer .slider_box .slider_bar .separator { float: left; width: 100px; height: 20px; background-color: red; }
 .transfer .slider_box .slider_bar .date { font-size: 10px; line-height: 20px; }
 .transfer .slider_box .slider_bar .name { color: #000; }

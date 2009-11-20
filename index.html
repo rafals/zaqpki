@@ -9,13 +9,14 @@
 		<script src="/javascripts/jquery.autocomplete.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/javascripts/jquery.tools.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/javascripts/jquery.scrollto.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/javascripts/jquery.absolutize.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/javascripts/jquery.absoluteposition.js" type="text/javascript" charset="utf-8"></script>
 		
 		<link rel="icon" href="/images/small/shopping_cart.png" type="image/png">
 		
 		<link rel="stylesheet" href="/stylesheets/jquery.autocomplete.css" type="text/css" media="screen" charset="utf-8" />
 		<link rel="stylesheet" href="/stylesheets/dashboard.css" type="text/css" media="screen" charset="utf-8" />
 		<script type="text/javascript" charset="utf-8">
+
 			function calculate_input_value(inp){
 				try{
 					inp.value = inp.value ? Math.round(eval(inp.value.replace(/,/g, '.'))*100)/100 : ''
@@ -23,7 +24,7 @@
 					window.alert("Błąd w polu ceny! \n Niepoprawny format: " + inp.value)
 				}
 			}
-		
+
 			$(function(){
 				$('input[type=text].hint').tooltip({
 					position: ['top', 'left'], 
@@ -49,22 +50,15 @@
 				$("#name").val("");
 				$("#cost").val("");
 				$("#cost").focus();
-				$('.slider_controller').click(function(event){
-					obj = $(event.target)
-					if(!obj.hasClass('blocked')){
-						obj.addClass('blocked')
-						obj.prev().stop().scrollTo('100%',500,{axis:'x'});
-					}
-					else {
-						obj.removeClass('blocked').removeClass('hover')
-						obj.prev().stop().scrollTo(0,500,{axis:'x'});
-					}
-				}).mouseover(function(event){
-					$(event.target).addClass('hover').prev().stop().scrollTo('100%',500,{axis:'x'});
-				}).mouseout(function(event){
-					obj = $(event.target)
-					if(!obj.hasClass('blocked'))
-						obj.removeClass('hover').prev().stop().scrollTo(0,500,{axis:'x'});
+				$('.slider_box').mousemove(function(e){
+					var offset, scroll_value, obj
+					obj = $(e.currentTarget)
+					offset = e.pageX - obj.position().left - obj.parent().width() * 0.2
+					scroll_value = Math.round(offset / (obj.parent().width() * 0.6) * 100) + '%'
+					obj.stop().scrollTo(scroll_value, 0, {axis:'x'});
+				})
+				$('.slider_box').mouseout(function(e){
+					$(e.currentTarget).stop().scrollTo(0,500,{axis:'x'});
 				})
 			});
 		</script>
@@ -112,7 +106,7 @@
 					{% for transfer in transfers %}
 						<div class="transfer {{ even }}">
 							<div class="slider_box">
-								<div>
+								<div class="slider_bar">
 									<span class="cost">{{ transfer.cost }} zł</span> za
 									<span class="name">{{ transfer.name }}</span>
 									dla
@@ -127,7 +121,6 @@
 									</span>
 								</div>
 							</div>
-							<div class="slider_controller"></div>
 						</div>
 					{% endfor %}
 					{% if not transfers %}

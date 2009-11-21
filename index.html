@@ -50,11 +50,17 @@
 				$("#name").val("");
 				$("#cost").val("");
 				$("#cost").focus();
+				
 				$('.slider_box').mousemove(function(e){
 					var offset, scroll_value, obj
 					obj = $(e.currentTarget)
 					offset = e.pageX - obj.position().left - obj.parent().width() * 0.2
-					scroll_value = Math.round(offset / (obj.parent().width() * 0.6) * 100) + '%'
+					scroll_value = offset / (obj.parent().width() * 0.5 + 170) * 100.0
+					if (scroll_value >= 75) {
+						scroll_value = Math.round((scroll_value - 75.0) * 4.0) + '%'
+					} else {
+						scroll_value = 0 + '%'
+					}
 					obj.stop().scrollTo(scroll_value, 0, {axis:'x'});
 				})
 				$('.slider_box').mouseout(function(e){

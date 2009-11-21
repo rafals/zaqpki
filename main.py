@@ -45,8 +45,16 @@ def to_genitive(word, is_male):
   if r: return text
   r = re.match(u'^(.+)ś$', text, re.I)
   if r: return r.group(1) + 'sia' if is_male else text
+  r = re.match('^(.+)cieq$', text, re.I)
+  if r: return r.group(1) + u'ćqa' if is_male else text
+  r = re.match('^(.+)eq$', text, re.I)
+  if r: return r.group(1) + 'qa' if is_male else text
   r = re.match('^(.+)q$', text, re.I)
   if r: return r.group(1) + 'ka' if is_male else text
+  r = re.match('^(.+)au$', text, re.I)
+  if r: return r.group(1) + 'aua'
+  r = re.match('^(.+)eu$', text, re.I)
+  if r: return r.group(1) + 'ua'
   r = re.match('^(.+)u$', text, re.I)
   if r: return r.group(1) + 'a'
   return text + "a"

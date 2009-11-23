@@ -27,8 +27,10 @@ def to_genitive(word, is_male):
   text = word.strip()
   if is_email(text): return text
   if text.upper() == "JA": return "mnie"
-  r = re.match('^(.+)[iy]$', text, re.I)
+  r = re.match('^(.+)i$', text, re.I)
   if r: return r.group(1) + 'iego' if is_male else text
+  r = re.match('^(.+)y', text, re.I)
+  if r and is_male: return r.group(1) + 'ego'
   r = re.match('^(.+)ciek$', text, re.I)
   if r: return r.group(1) + u'ćka'
   r = re.match('^(.+)siek$', text, re.I)

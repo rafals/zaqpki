@@ -39,6 +39,8 @@ def to_genitive(word, is_male):
   if r: return r.group(1) + u'źka'
   r = re.match('^(.+)ek$', text, re.I)
   if r: return r.group(1) + 'ka'
+  r = re.match('^(.+)ia$', text, re.I)
+  if r: return r.group(1) + r.group(2) + 'i'
   r = re.match('^(.+)(k|l)a$', text, re.I)
   if r: return r.group(1) + r.group(2) + 'i'
   r = re.match('^(.+)a$', text, re.I)

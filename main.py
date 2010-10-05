@@ -219,7 +219,7 @@ class User(db.Model):
         user.put()
         return True
       f1 = Friend.gql("WHERE owner = :1 and email = :2", self.email, email).get()
-      if f1: # usuwamy frienda - interfejs graficzny tego na razie nie umożliwia
+      if f1:
         f2 = Friend.gql("WHERE owner = :2 and email = :1", self.email, email).get()
         f1.delete()
         f2.delete()
@@ -438,7 +438,18 @@ class MainHandler(Handler):
       last_tester = None
       if self.is_admin():
         last_tester = PermittedEmail.gql("ORDER BY created_at DESC").get()
-      self.view('index.html', {'is_admin': self.is_admin(), 'last_tester': last_tester, 'newer_available': page != 1, 'older_available': len(last_transfers) >= count, 'newer_page': page-1, 'older_page': page+1, 'current_user': self.current_user, 'transfers': transfers, 'even': Cycle(), 'even2': Cycle(), 'small': gravatar('jercik@gmail.com', 24), 'logout_url': self.logout_url()})
+      self.view('index.html', {'is_admin': self.is_admin(),
+																'last_tester': last_tester,
+																'newer_available': page != 1,
+																'older_available': len(last_transfers) >= count,
+																'newer_page': page-1,
+																'older_page': page+1,
+																'current_user': self.current_user,
+																'transfers': transfers,
+																'even': Cycle(),
+																'even2': Cycle(),
+																'small': gravatar('jercik@gmail.com', 24),
+																'logout_url': self.logout_url()})
 
 class AddFriendHandler(Handler):
   def post(self):
@@ -449,7 +460,7 @@ class AddFriendHandler(Handler):
 class DeleteFriendHandler(Handler):
   def post(self):
     if not self.signed_up(): return
-    self.current_user.delete_friend(self.request.get('email'))
+    #self.current_user.delete_friend(self.request.get('email')) # TODO bug
     self.redirect('/')
 
 class AddTransferHandler(Handler):
